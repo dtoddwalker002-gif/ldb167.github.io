@@ -8,10 +8,39 @@ a6bddb- - light teal
 
 
 body {
-background-color: #ece2f0;
-color: #a6bddb;
+background-color: #a6bddb;
+color: #ece2f0;
 text-align: center;
+margin: 0;
 }
 h1{
   color:#1c9099;
+  padding:5px;
+  margin:0;
+
+}
+#body-container {
+  background-color:#1c9099;
+max-width:1000px;
+margin: auto;
+min-height: 100vh;
+border: 2px solid #f7f7f7;
+border-radius: 25px;
+overflow: hidden;
+}
+#header {
+  background-color:#a6bddb;
+}
+#profile-picture {
+  float:left;
+}
+#welcome-text {
+  padding-top:25px;
+  font-size:25px;
+}
+#research-interests {
+  text-align:left;
+  font-size: 25px;
+  position:relative;
+  left:50px;
 }
