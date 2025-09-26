@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 <head>
+  <script src="external.js"></script>
     <title>Todd Walker</title>
     <!-- Styling for this html document are in this stylesheet file -->
     <link rel="stylesheet" type="text/css" href="css/main_style.css">
@@ -10,14 +11,15 @@
   <div id="body-container">
     <!-- this section contains the main focus of my website -->
     <div id="header">
-      <script src="external.js"></script>
       <!-- Greeting and introduction-->
-      <h1>My name is Todd </h1>
+<!--
+  <h1>My name is Todd </h1>
+-->
 
     </div>
   <div id="profile-picture">
     <!-- Picture of image used for another class, to represent my page -->
-    <img src=Images/profile-picture.jpg width=506px height=406px />
+    <img src=Images/profile-picture.jpg width=500px height=500px />
   <div id="welcome-text">
     <!-- minor context as to who I am -->
     <p>
@@ -35,6 +37,14 @@
       <Li>Ecology</Li>
       <Li>Conservation</li>
     </ol>
+  </p>
+</div>
+<div id "webmap-reviews">
+  <p>
+    <h3>Webmap Reviews</h3>
+    <script>
+    document.write(webmap_table());
+    </script>
   </p>
 </div>
 </body>
