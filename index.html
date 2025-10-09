@@ -2,6 +2,15 @@
 <!doctype html>
 <html>
 <head>
+  <meta charset="utf-8">
+    <meta name = "viewport"
+      content = "width=device-width, initial- scale=1.0" />
+    <link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+      crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js" integrity
+  <script src='javascript/secret_keys.js'></script>
   <script src="external.js"></script>
     <title>Todd Walker</title>
     <!-- Styling for this html document are in this stylesheet file -->
@@ -42,12 +51,34 @@
   </p>
 </div>
 <div id "webmap-reviews">
+  <h3>Geocoding Map</h3>
+<br>
+
+
   <p>
     <h3>Webmap Reviews</h3>
     <script>
     document.write(webmap_table());
     </script>
   </p>
+</div>
+<h3>Geocoding Map</h3>
+<br>
+<div id="mapid" style="width: 600px; height: 400px; margin: auto; bottom: 30px;">
+<script>
+  var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?access_token={accessToken}',
+    {maxZoom: 18, id: 'mapbox.mapbox-traffic-v1',
+    accessToken: mapbox_access_token}).addTo(mymap);
+  var marker = L.marker([51.5, -0.09]).addTo(mymap);
+  var circle = L.circle([51.508, -0.11], { color: 'red', fillColor: '#f03',
+            fillOpacity: 0.5, radius: 500}).addTo(mymap);
+  var polygon = L.polygon([[51.509, -0.08], [51.503, -0.06], [51.51, -
+            0.047]]).addTo(mymap);
+        marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+        circle.bindPopup("I am a circle.");
+        polygon.bindPopup("I am a polygon.");
+</script>
 </div>
 </body>
 
