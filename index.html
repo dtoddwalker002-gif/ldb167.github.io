@@ -9,13 +9,19 @@
       href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
       integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
       crossorigin="">
-    <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
+  <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
       integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
       crossorigin="">
-    </script>
+  </script>
 
-  <script src='javascript/secret_keys.js'>
-    </script>
+    <link rel="stylesheet" type="text/css" href="css/map_style.css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css">
+    <script src="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js"></script>
+    <script src="https://unpkg.com/leaflet-controlgeocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-controlgeocoder/dist/Control.Geocoder.css" />
+
+  <script src='javascript/secret_keys.js'></script>
+
   <script src="external.js">
     </script>
     <title>Todd Walker</title>
@@ -45,6 +51,66 @@
       <a href="https://www.txst.edu/" target= "=blank"> Texas State University</a>.
     </p>
   </div>
+<style>
+  /* Style the dropdown button */
+  .dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Dropdown content */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  }
+
+  /* Links inside dropdown content */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #f1f1f1
+  }
+
+  /* Show the dropdown content on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  /* Change background color of dropdown button on hover */
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  }
+  </style>
+
+  <div class="dropdown">
+    <button class="dropbtn">About Us</button>
+    <div class="dropdown-content">
+      <a href="https://chicken-fingers-backup.github.io/">Ali</a>
+      <a href="https://alison-1-alt.github.io/">Alison</a>
+      <a href="https://github.com/dtoddwalker002-gif/ldb167.github.io">Todd</a>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
 <div id="research-interests">
   <!-- List of personal research interests, in no particular order -->
 <p>
@@ -72,20 +138,113 @@
   <br>
     <div id="mapid" style="width: 600px; height: 400px; margin: auto; bottom: 30px;">
       <script>
-        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?access_token={accessToken}',
-          {maxZoom: 18, id: 'mapbox.mapbox-traffic-v1',
-          accessToken: mapbox_access_token}).addTo(mymap);
-        var marker = L.marker([51.5, -0.09]).addTo(mymap);
-        var circle = L.circle([51.508, -0.11], { color: 'red', fillColor: '#f03',
-                fillOpacity: 0.5, radius: 500}).addTo(mymap);
-                var polygon = L.polygon([[51.509, -0.08], [51.503, -0.06], [51.51, -
-                0.047]]).addTo(mymap);
-          marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-          circle.bindPopup("I am a circle.");
-          polygon.bindPopup("I am a polygon.");
+        var mymap = L.map('mapid');
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',{maxZoom: 18, id: 'mapbox/dark-v10',accessToken: mapbox_access_token}).addTo(mymap);
+      //  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{}).addTo(mymap);
+
+    //    var marker = L.marker([51.5, -0.09]).addTo(mymap);
+      //  var circle = L.circle([51.508, -0.11], { color: 'red', fillColor: '#f03',
+      //          fillOpacity: 0.5, radius: 500}).addTo(mymap);
+      //          var polygon = L.polygon([[51.509, -0.08], [51.503, -0.06], [51.51, -
+      //          0.047]]).addTo(mymap);
+      //      marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+      //      circle.bindPopup("I am a circle.");
+    //        polygon.bindPopup("I am a polygon.");
+      //      marker.on('click', function(e){ mymap.setView(e.latlng, 14);})
+      //      circle.on('click', function(e){ mymap.setView(e.latlng, 13);})
+      //      polygon.on('click', function(e){ mymap.setView(e.latlng, 13);})
+      //    var polyline = L.polyline([[51.506, -0.08], [51.502, -0.06], [51.507, -0.047]]).addTo(mymap);
+      //    var ZoomViewer = L.Control.extend({ onAdd: function(){
+      //    var gauge = L.DomUtil.create('div');
+      //      gauge.style.width = '200px';
+      //      gauge.style.background = 'rgba(255,255,255,0.5)';
+      //      gauge.style.textAlign = 'left';
+      //      mymap.on('zoomstart zoom zoomend', function(ev){
+      //      gauge.innerHTML = 'Zoom level: ' + mymap.getZoom();
+      //    })
+      //    return gauge;
+      //    }
+      //    });
+        //  (new ZoomViewer).addTo(mymap);
+var geocoder = L.Control.geocoder({
+  defaultMarkGeocode: false,
+  geocoder: new L.Control.Geocoder.Nominatim()
+    }).on('markgeocode', function(e) {
+var bbox = e.geocode.bbox;
+var poly = L.polygon([
+  bbox.getSouthEast(),
+  bbox.getNorthEast(),
+  bbox.getNorthWest(),
+  bbox.getSouthWest()
+]);
+mymap.fitBounds(poly.getBounds());
+}).addTo(mymap);
+
+mymap.setView([0,0], 1);
+
       </script>
     </div>
+
+    <style>
+    .dropdown {
+      position: relative;
+    }
+
+    /* Style the dropdown button */
+    .dropbtn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Dropdown content */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    /* Links inside dropdown content */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+      background-color: #f1f1f1
+    }
+
+    /* Show the dropdown content on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Change background color of dropdown button on hover */
+    .dropdown:hover .dropbtn {
+      background-color: #3e8e41;
+    }
+    </style>
+
+    <div class="dropdown">
+      <button class="dropbtn">About Us</button>
+      <div class="dropdown-content">
+        <a href="https://chicken-fingers-backup.github.io/">Ali</a>
+        <a href="https://alison-1-alt.github.io/">Alison</a>
+        <a href="https://github.com/dtoddwalker002-gif/ldb167.github.io">Todd</a>
+        <a href="">Juston</a>
+      </div>
+    </div>
+
+
+
 </body>
 
 
