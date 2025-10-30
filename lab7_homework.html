@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 7 Homework</title>
   <link rel="stylesheet" type="text/css" href="css/map_style.css">
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.21/"></script>
+
 </head>
+
 <body>
   <h1>LAB 7</h1>
   <p>Select a lab page</p>
@@ -14,16 +19,157 @@
      <option value="">Page Select </option>
      <option value="https://dtoddwalker002-gif.github.io/ldb167.github.io/tile_layer.html">Tile Layer</option>
      <option value="https://dtoddwalker002-gif.github.io/ldb167.github.io/query_task.html">Query Task</option>
-     <option value="https://dtoddwalker002-gif.github.io/ldb167.github.io/Basemap_Gallery.html">Basemap Gallery</option>
+     <option value="https://dtoddwalker002-gif.github.io/ldb167.github.io/BasemapGallery.html">Basemap Gallery</option>
      <option value="https://dtoddwalker002-gif.github.io/ldb167.github.io/simple_mapping.html">Simple Mapping</option>
      <option value="https://dtoddwalker002-gif.github.io/ldb167.github.io/dynamiclayers.html">Dynamic Layers</option>
      <option value="https://dtoddwalker002-gif.github.io/ldb167.github.io/on_event.html">On Event</option>
    </select>
 
   <script>
+
     document.getElementById("pageSelect").addEventListener("change", function() {
       var url = this.value;
       if (url) window.open(url, "_blank");
+    });
+  </script>
+<!-- Map Title and Explanation -->
+  <h2>BigFoot Sightings Map</h2>
+  <p>Use the dropdown below to query sightings by Class.</p>
+
+  <!-- Map container -->
+  <div id="viewDiv"></div>
+
+  <!-- Query Menu - uses sighting classification to search results -->
+  <div id="optionsDiv" class="esri-widget">
+    <label for="classSelect">Select Class:</label><br />
+    <select id="classSelect">
+      <option value="">(loading...)</option>
+    </select>
+    <br /><br />
+    <button id="queryBtn">Run Query</button>
+    <p id="resultText"></p>
+  </div>
+
+  <footer>© 2025 Todd Walker | Data © Esri</footer>
+
+  <!--Loading modules from esri for map  -->
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/layers/TileLayer",
+      "esri/layers/GraphicsLayer",
+      "esri/widgets/Search",
+      "dojo/on",
+      "dojo/dom",
+      "dojo/domReady!"
+    ], function(Map, MapView, FeatureLayer, TileLayer, GraphicsLayer, Search, on, dom) {
+
+      // Tile reference layer
+      const transportation = new TileLayer({
+        url: "https://services.arcgis.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
+      });
+
+      // BigFoot sightings layer
+      const bigfootLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/BigFoot/FeatureServer/0",
+        popupTemplate: {
+          title: "{Name}",
+          content: "Class: {Class}<br>AltMode: {AltMode}<br>Description: {Descr}"
+        }
+      });
+
+      // Map setup - includes bigfoot sighting layer and transportation layer
+      const map = new Map({
+        basemap: "topo-vector",
+        layers: [bigfootLayer, transportation]
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map
+      });
+
+      //  Search widget
+      const search = new Search({ view });
+      view.ui.add(search, "top-right");
+
+      // Layer created for query results
+      const resultsLayer = new GraphicsLayer();
+      map.add(resultsLayer);
+
+      // showing query result layer extent when loaded
+      view.whenLayerView(bigfootLayer).then(() => {
+        bigfootLayer.queryExtent().then((res) => {
+          if (res.extent) view.goTo(res.extent);
+        });
+      });
+     // setting const values for function
+      const classSelect = dom.byId("classSelect");
+      const queryBtn = dom.byId("queryBtn");
+      const resultText = dom.byId("resultText");
+
+      // Populate Class dropdown with distinct class values -
+      // removes null data and sorts acceptable values, and populates an array with said values, A or B
+      function loadClassValues() {
+        const q = bigfootLayer.createQuery();
+        q.outFields = ["Class"];
+        q.returnDistinctValues = true;
+        q.where = "Class IS NOT NULL";
+
+        bigfootLayer.queryFeatures(q).then((res) => {
+          const values = Array.from(
+            new Set(res.features.map(f => f.attributes.Class))
+          ).filter(Boolean).sort();
+
+          classSelect.innerHTML = '<option value="">-- Select Class --</option>';
+          values.forEach(v => {
+            const opt = document.createElement("option");
+            opt.value = v;
+            opt.textContent = v;
+            classSelect.appendChild(opt);
+          });
+        });
+      }
+
+      loadClassValues();
+
+      // Run query by selected Class
+      on(queryBtn, "click", () => {
+        const selectedClass = classSelect.value;
+        if (!selectedClass) {
+          resultText.textContent = "Please select a Class.";
+          return;
+        }
+
+        const q = bigfootLayer.createQuery();
+        q.where = `Class = '${selectedClass}'`;
+        q.outFields = ["*"];
+        q.returnGeometry = true;
+
+        resultsLayer.removeAll();
+        resultText.textContent = "Running query...";
+
+        bigfootLayer.queryFeatures(q).then((res) => {
+          const graphics = res.features.map(f => {
+            f.symbol = {
+              type: "simple-marker",
+              color: "blue",
+              size: 8
+            };
+            f.popupTemplate = bigfootLayer.popupTemplate;
+            return f;
+          });
+
+          resultsLayer.addMany(graphics);
+          resultText.textContent = graphics.length + " result(s) found";
+
+          if (graphics.length) {
+            view.goTo({ target: graphics, padding: 50 }, { duration: 1000 });
+          }
+        });
+      });
     });
   </script>
 </body>

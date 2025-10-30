@@ -3,3 +3,23 @@
 {
 background: yellow;
 }
+html, body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+#viewDiv { height: 500px; width: 100%; margin-top: 20px; }
+#optionsDiv {
+  position: absolute;
+  top: 120px;
+  left: 400px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 14px;
+  z-index: 10;
+}
+footer {
+  position: relative;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 10px;
+  background-color: #f8f8f8;
+  padding: 5px;
+}
