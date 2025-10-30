@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -71,18 +71,18 @@ var basemapGallery = new BasemapGallery({
 view: view
 });
 view.ui.add(basemapGallery, {position: "top-right"});
-view.when(function(){
-view.ui.add("optionsDiv", "bottom-right");
-on(dom.byId("doBtn"), "click", doQuery);
+  view.when(function(){
+  view.ui.add("optionsDiv", "bottom-right");
+  on(dom.byId("doBtn"), "click", doQuery);
 });
-    var attributeName = dom.byId("attSelect");
-    var expressionSign = dom.byId("signSelect");
-    var value = dom.byId("valSelect");
-function doQuery(){
-resultsLayer.removeAll();
-params.where = attributeName.value + expressionSign.value + value.value;
-GEO 4422/5408 Web Mapping Fall 2025
-qTask.execute(params).then(getResults).catch(promiseRejected);
+      var attributeName = dom.byId("attSelect");
+      var expressionSign = dom.byId("signSelect");
+      var value = dom.byId("valSelect");
+    function doQuery(){
+  resultsLayer.removeAll();
+  params.where = attributeName.value + expressionSign.value + value.value;
+
+  qTask.execute(params).then(getResults).catch(promiseRejected);
 }
     function getResults(response){
     var popResults = arrayUtils.map(
@@ -110,25 +110,13 @@ var popUrl = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/
 var popupTemplate = {
 title: "{City}",
 fieldInfos:[
-{
-fieldName: "Population",
-label: "Population",
-format: {
-places: 0,
-digitSeperator: true
-}
-},
-{
-fieldName: "Household",
-label: "Household",
-format: {
-places: 0,
-digitSeperator: true
-}
-}
+{fieldName: "Population", label: "Population", format: { places: 0, digitSeperator: true}},
+{fieldName: "Household", label: "Household", format: { places: 0, digitSeperator: true}}
 ],
-content: "<b>Population:" + "</b> {Population} " + "<br><b>Households:</b> {Household}" + "<br><b>Latitude:</b>
-{Latitude}" + "<br><b>Longitude:</b> {Longitude}"
+  content: "<b>Population:</b> {Population} "+
+           "<br><b>Households:</b> {Household}"  +
+           "<br><b>Latitude:</b> {Latitude}" +
+           "<br><b>Longitude:</b> {Longitude}"
 };
 var resultsLayer = new GraphicsLayer();
 var qTask = new QueryTask({ url: popUrl });
